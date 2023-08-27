@@ -1,0 +1,83 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white">
+    <ion-title>
+      {{items.length}} towards at cart
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="none" *ngIf="items.length > 0">
+
+    <div *ngFor="let item of items; let i = index" class="container" [ngClass]="{'containerSlide' : changeColor[i]}">
+
+      <img [src]="item.photo" class="image" />
+
+      <ion-item-sliding (ionDrag)="dragItem($event, i)">
+
+        <ion-item-options side="end">
+          <ion-item-option color="light">
+            <ion-icon slot="icon-only" name="trash" color="danger" (click)="removeItem(i)"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item [color]="changeColor[i] ? 'primary' : 'light'">
+
+          <ion-avatar slot="start">
+            <!-- <img [src]="item.photo" /> -->
+          </ion-avatar>
+
+          <ion-label>
+            <ion-text class="ion-text-wrap title">
+              {{ item?.name }}
+            </ion-text>
+            <p>
+              <ion-text color="secondary">
+                <sup>$</sup>{{ item?.price }}
+              </ion-text>
+            </p>
+          </ion-label>
+
+          <ion-row slot="end">
+
+            <ion-col size="12">
+              <ion-buttons class="add">
+                <ion-button (click)="addQuantity(i)" size="small" color="dark">
+                  <ion-icon name="add"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+
+            <ion-col size="12" class="qty">
+              <ion-text [color]="changeColor[i] ? 'light' : 'primary'">{{ item?.quantity }}</ion-text>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-buttons class="minus">
+                <ion-button (click)="minusQuantity(i)" size="small" color="dark">
+                  <ion-icon name="remove"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
+
+        </ion-item>
+
+      </ion-item-sliding>
+
+    </div>
+
+  </ion-list>
+  
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="white">
+
+    <ion-button color="primary" expand="block" size="large" shape="round">
+      <ion-text>Total: <b><sup>$</sup>{{total | number: '0.2-2'}}</b></ion-text>
+    </ion-button>
+
+  </ion-toolbar>
+</ion-footer>
